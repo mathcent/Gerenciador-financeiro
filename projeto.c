@@ -38,7 +38,7 @@ int menu(){
     puts("3 - Relatorio especifo ");
     puts("4 - Relatorio ultimos 12 meses ");
     puts("5 - Porcentagem dos gastos");
-    puts("6 - Previsao de gastos proximo mes ");
+    puts("6 - Total de gastos em 1 ou 12 meses");
     puts("0 - Sai!    ");
     printf("opcao> ");
     int op;
@@ -53,12 +53,28 @@ void cadastra(struct Nelson *j){
 	scanf("%f",&j->receitas[j->n].valor);
     printf("Tipo:(1-Moradia, 2-Estudos, 3-Transporte, 4-Alimentacao, 5-Trabalho) ");
     scanf("%d",&j->receitas[j->n].tipo);
-    printf("Data:(dd/mm/aaaa) ");
+    while(j->receitas[j->n].tipo>5){
+    	printf("opacao invalida! Digite novamente ");
+    	scanf("%d",&j->receitas[j->n].tipo);	
+	}
     int d=0;
     int m=0;
     int a=0;
+    int p=0;
+    printf("apartir de que dia? ");
     scanf("%d",&d);
+    while(d>31 ){
+        printf("dia invalido ! insira novamente: ");
+        scanf("%d",&d);
+    }
+
+	printf("apartir de que mes? ");
     scanf("%d",&m);
+    while(m>12){printf("mes invalido ! insira novamente: ");
+        scanf("%d",&m);
+    }
+	
+	printf("apartir de que ano? ");	
     scanf("%d",&a);
     j->receitas[j->n].data=criaData(d,m,a);
     j->n++;	
@@ -88,20 +104,32 @@ void imprime12(struct Nelson j){
     int d=0;
     int m=0;
     int a=0;
-    printf("Apartir de que dia? :");
+    printf("apartir de que dia? ");
     scanf("%d",&d);
-    printf("\nEm qual mes? :");
+    while(d>31 ){
+        printf("dia invalido ! insira novamente: ");
+        scanf("%d",&d);
+    }
+
+	printf("apartir de que mes? ");
     scanf("%d",&m);
-    printf("\nEm qual ano? :");
+    while(m>12){printf("mes invalido ! insira novamente: ");
+        scanf("%d",&m);
+    }
+	
+	printf("apartir de que ano? ");
+	
     scanf("%d",&a);
     int i;
     int op=0;
 	for (i = 0; i < j.n; i++){
-        puts("_________");
+        
         if(conferi(j,d,m,a,i,op)==0){
-            if(j.receitas[i].tipo==1){
+        	
+        	puts("_________________________");
+            if(j.receitas[i].tipo==1){            	
                 printf(" Moradia: \n");
-            }else if(j.receitas[i].tipo==2){
+            }else if(j.receitas[i].tipo==2){            	
                 printf(" Estudos: \n");
             }else if(j.receitas[i].tipo==3){
                 printf(" Transporte: \n");
@@ -110,9 +138,11 @@ void imprime12(struct Nelson j){
             }else if(j.receitas[i].tipo==5){
                 printf(" Trabalho: \n");
             }
+            
             printf(" Valor: %.2f \n",j.receitas[i].valor);
+            
             printf(" Data: %d/%d/%d \n",j.receitas[i].data.dia,j.receitas[i].data.mes,j.receitas[i].data.ano);
-            puts("_________");
+            
         }        
     }    
 }
@@ -121,16 +151,26 @@ void imprime1(struct Nelson j){
     int d=0;
     int m=0;
     int a=0;
-    printf("Apartir de que dia? :");
+	printf("apartir de que dia? ");
     scanf("%d",&d);
-    printf("\nEm qual mes? :");
+    while(d>31 ){
+        printf("dia invalido ! insira novamente: ");
+        scanf("%d",&d);
+    }
+
+	printf("apartir de que mes? ");
     scanf("%d",&m);
-    printf("\nEm qual ano? :");
+    while(m>12){printf("mes invalido ! insira novamente: ");
+        scanf("%d",&m);
+    }
+	
+	printf("apartir de que ano? ");
+	
     scanf("%d",&a);
     int i;
     int op=1;
 	for (i = 0; i < j.n; i++){
-        puts("_________");
+        puts("_________________________");
         if(conferi(j,d,m,a,i,op)==0){
             if(j.receitas[i].tipo==1){
                 printf("Moradia:\n");
@@ -142,10 +182,13 @@ void imprime1(struct Nelson j){
                 printf("Alimentacao:\n");
             }else if(j.receitas[i].tipo==5){
                 printf("Trabalho:\n");
+
             }
+            puts("_________________________");
             printf(" Valor: %.2f\n",j.receitas[i].valor);
+            puts("_________________________");
             printf(" Data: %d/%d/%d\n",j.receitas[i].data.dia,j.receitas[i].data.mes,j.receitas[i].data.ano);
-            puts("_________");
+            puts("_________________________");
         }        
     }
 }
@@ -191,17 +234,36 @@ void parcela(struct Nelson *j){
     int m=0;
     int a=0;
     int i;
-    int tipo=0;
+    
     float valor=0; 
     printf("Quantas parcelas? ");
     scanf("%d",&parc);
     printf("Valor Total: ");
 	scanf("%f",&valor);
     printf("Tipo:(1-Moradia, 2-Estudos, 3-Transporte, 4-Alimentacao, 5-Trabalho) ");
-    scanf("%d",&tipo);
-    printf("Data da primera parcela:(dd/mm/aaaa) ");
+    
+    scanf("%d",&j->receitas[j->n].tipo);
+    while(j->receitas[j->n].tipo > 5){
+    	printf("opacao invalida! Digite novamente ");
+    	scanf("%d",&j->receitas[j->n].tipo);	
+	}
+	int tipo=j->receitas[j->n].tipo;
+
+    printf("apartir de que dia? ");
     scanf("%d",&d);
+    while(d>31 ){
+        printf("dia invalido ! insira novamente: ");
+        scanf("%d",&d);
+    }
+	
+	printf("apartir de que mes? ");
     scanf("%d",&m);
+    while(m>12){printf("mes invalido ! insira novamente: ");
+        scanf("%d",&m);
+    }
+	
+	printf("apartir de que ano? ");
+	
     scanf("%d",&a);
     float valorP=valor/parc;
     for (i = 0; i < parc; i++){
@@ -224,6 +286,51 @@ void parcela(struct Nelson *j){
     }
 }
 
+void gastos(struct Nelson j){
+    int d=0;
+    int m=0;
+    int a=0;
+    int opp=0;
+    printf("Quer ver 1 ou 12: ");
+    scanf("%d",&opp);
+	printf("apartir de que dia? ");
+    scanf("%d",&d);
+    while(d>31 ){
+        printf("dia invalido ! insira novamente: ");
+        scanf("%d",&d);
+    }
+
+	printf("apartir de que mes? ");
+    scanf("%d",&m);
+    while(m>12){printf("mes invalido ! insira novamente: ");
+        scanf("%d",&m);
+    }
+	
+	printf("apartir de que ano? ");
+	
+    scanf("%d",&a);
+    int op;
+    int i;
+    if(opp==1){
+    	op=1;
+	}else{
+		op=0;
+	}
+    
+    float tot=0;
+	for (i = 0; i < j.n; i++){
+        if(conferi(j,d,m,a,i,op)==0){
+            tot+=j.receitas[i].valor;
+        }
+            
+    }
+    if(op=1){
+    	printf("No mes %d foi gasto um total de %.2f\n ",m,tot);
+	}else{
+		printf("Ate o mes %d foi gasto um total de %.2f nos ultimos 12 meses\n ",m,tot);
+	}
+    
+};
 
 
 int main()
@@ -244,12 +351,16 @@ int main()
         }else if(op == 2){
             parcela(&j);            
         }else if(op == 6){
-            printf("\n...\n");            
-        }else {
+            gastos(j);            
+        }else if(op == 0) {
+        	
             break;
-        }
+        }else{
+        	puts("Opcao invalida! ");
+		}
     }
-   
+   puts("Obrigado pela preferencia!");
  
   return 0;
 }
+ 
